@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 14.x
       - name: npm install and build
@@ -17,7 +17,7 @@ jobs:
           npm install
           npm run build
       - name: Store build-output for later
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: build-output
           path: |
@@ -29,13 +29,13 @@ jobs:
 
     needs: build
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 14.x
       - name: Get build-output from build step
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: build-output
       - name: Create package tarball
@@ -43,7 +43,7 @@ jobs:
           export ARCHIVE_FILENAME=$(npm pack | tail -n 1)
           mv $ARCHIVE_FILENAME mustache.tgz
       - name: Store package tarball for later
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: package-output
           path: mustache.tgz
@@ -57,13 +57,13 @@ jobs:
 
     needs: package
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: Get package tarball from package step
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: package-output
       - name: Package, install and test
@@ -84,13 +84,13 @@ jobs:
 
     needs: package
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: Get package tarball from package step
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: package-output
       - name: Package, install and test
@@ -109,13 +109,13 @@ jobs:
 
     needs: build
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 12.x
       - name: Get build-output from build step
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: build-output
       - name: Install and test
@@ -128,12 +128,12 @@ jobs:
 
     needs: build
     steps:
-      - uses: actions/checkout@v1
-      - uses: denolib/setup-deno@master
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
         with:
           deno-version: 'v1.0.0'
       - name: Get build-output from build step
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: build-output
       - run: deno --version
