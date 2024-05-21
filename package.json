@@ -56,7 +56,12 @@
     "rollup": "^1.26.3",
     "uglify-js": "^3.4.6",
     "zuul": "^3.11.0",
-    "zuul-ngrok": "nolanlawson/zuul-ngrok#patch-1"
+    "zuul-ngrok": "^4.0.0"
+  },
+  "overrides": {
+    "zuul-ngrok": {
+      "ngrok": "^4.3.3"
+    }
   },
   "greenkeeper": {
     "ignore": [
