@@ -52,11 +52,16 @@
     "esm": "^3.2.25",
     "jshint": "^2.9.5",
     "mocha": "^3.0.2",
-    "puppeteer": "^2.0.0",
+    "puppeteer": "^10.4.0",
     "rollup": "^1.26.3",
     "uglify-js": "^3.4.6",
     "zuul": "^3.11.0",
-    "zuul-ngrok": "nolanlawson/zuul-ngrok#patch-1"
+    "zuul-ngrok": "^4.0.0"
+  },
+  "overrides": {
+    "zuul-ngrok": {
+      "ngrok": "^4.3.3"
+    }
   },
   "greenkeeper": {
     "ignore": [
