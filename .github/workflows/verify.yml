@@ -20,7 +20,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x, 15.x]
+        node-version: [12.x, 14.x, 15.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -61,7 +61,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [0.10.x, 0.12.x, 4.x, 6.x, 8.x]
+        node-version: [0.10.x, 0.12.x, 4.x, 6.x, 8.x, 10.x]
 
     needs: build
     steps:
@@ -78,5 +78,5 @@ jobs:
           name: build-output
       - name: npm install and test
         run: |
-          npm install mocha@3 chai@3
+          npm install mocha@3 chai@3 esm@3 --no-package-lock
           npm run test-unit
