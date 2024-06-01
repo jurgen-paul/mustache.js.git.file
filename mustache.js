@@ -79,6 +79,7 @@ var spaceRe = /\s+/;
 var equalsRe = /\s*=/;
 var curlyRe = /\s*\}/;
 var tagRe = /#|\^|\/|>|\{|&|=|!/;
+var dynamicRe = /\*/;
 
 /**
  * Breaks up the given `template` string into a tree of tokens. If the `tags`
@@ -202,6 +203,14 @@ function parseTemplate (template, tags) {
       scanner.scan(curlyRe);
       scanner.scanUntil(closingTagRe);
       type = '&';
+    } else if (type === '>') {
+      if (scanner.scan(dynamicRe) === '') {
+        value = scanner.scanUntil(closingTagRe);
+      } else {
+        scanner.scan(whiteRe);
+        type = '>*';
+        value = scanner.scanUntil(closingTagRe);
+      }
     } else {
       value = scanner.scanUntil(closingTagRe);
     }
@@ -210,7 +219,7 @@ function parseTemplate (template, tags) {
     if (!scanner.scan(closingTagRe))
       throw new Error('Unclosed tag at ' + scanner.pos);
 
-    if (type == '>') {
+    if (type == '>' || type == '>*') {
       token = [ type, value, start, scanner.pos, indentation, tagIndex, lineHasNonSpace ];
     } else {
       token = [ type, value, start, scanner.pos ];
@@ -571,6 +580,7 @@ Writer.prototype.renderTokens = function renderTokens (tokens, context, partials
     if (symbol === '#') value = this.renderSection(token, context, partials, originalTemplate, config);
     else if (symbol === '^') value = this.renderInverted(token, context, partials, originalTemplate, config);
     else if (symbol === '>') value = this.renderPartial(token, context, partials, config);
+    else if (symbol === '>*') value = this.renderDynamicPartial(token, context, partials, config);
     else if (symbol === '&') value = this.unescapedValue(token, context);
     else if (symbol === 'name') value = this.escapedValue(token, context, config);
     else if (symbol === 'text') value = this.rawValue(token);
@@ -636,10 +646,27 @@ Writer.prototype.indentPartial = function indentPartial (partial, indentation, l
   return partialByNl.join('\n');
 };
 
+Writer.prototype.renderDynamicPartial = function renderPartial (token, context, partials, config) {
+  if (!partials) return;
+  var tags = this.getConfigTags(config);
+  var name = context.lookup(token[1].trim());
+  var value = isFunction(partials) ? partials(name) : partials[name];
+  if (value != null) {
+    var lineHasNonSpace = token[6];
+    var tagIndex = token[5];
+    var indentation = token[4];
+    var indentedValue = value;
+    if (tagIndex == 0 && indentation) {
+      indentedValue = this.indentPartial(value, indentation, lineHasNonSpace);
+    }
+    var tokens = this.parse(indentedValue, tags);
+    return this.renderTokens(tokens, context, partials, indentedValue, config);
+  }
+};
+
 Writer.prototype.renderPartial = function renderPartial (token, context, partials, config) {
   if (!partials) return;
   var tags = this.getConfigTags(config);
-
   var value = isFunction(partials) ? partials(token[1]) : partials[token[1]];
   if (value != null) {
     var lineHasNonSpace = token[6];

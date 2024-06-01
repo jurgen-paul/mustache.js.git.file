@@ -172,4 +172,18 @@ describe('Partials spec', function () {
       var renderResult = Mustache.render(template, {}, partials, tags);
       assert.equal(renderResult, expected);
     });
+
+    describe('when rendering a dynamically named partial after already having rendered that partial with a different name value', function () {
+      it('returns different output for the latter render', function () {
+        var template = 'Place: {{>*place}}';
+        var partials = {
+          first: '1st',
+          second: '2nd',
+        };
+        var renderedFirst = Mustache.render(template, {place:'first'}, partials);
+        var renderedSecond = Mustache.render(template, {place:'second'}, partials);
+
+        assert.notEqual(renderedFirst, renderedSecond);
+      });
+    });
 });

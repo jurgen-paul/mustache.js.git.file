@@ -419,6 +419,29 @@ Mustache.render(template, view, {
 });
 ```
 
+Partials can have dynamic names, which begin with `*`.  In this case, a value is read from the context and the partial with that value is used.
+
+For example, this template and partial:
+
+    base.mustache:
+    <h2>Message of the Day</h2>
+    {{> *dayOfWeek}}
+
+    thursday.mustache:
+    <span>This must be Thursday. I never could get the hang of Thursdays.</span>
+
+When loaded with the context:
+```json
+{
+  "dayOfWeek": "thursday"
+}
+```
+will be expanded to:
+```html
+    <h2>Message of the Day</h2>
+    <span>This must be Thursday. I never could get the hang of Thursdays.</span>
+```
+
 ### Custom Delimiters
 
 Custom delimiters can be used in place of `{{` and `}}` by setting the new values in JavaScript or in templates.

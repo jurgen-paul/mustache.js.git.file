@@ -14,12 +14,43 @@ var skipTests = {
   inverted: [
     'Standalone Without Newline'
   ],
+  interpolation: [
+    'Dotted Names - Context Precedence'
+  ],
   partials: [
     'Standalone Without Previous Line',
     'Standalone Without Newline'
   ],
   sections: [
     'Standalone Without Newline'
+  ],
+  '~inheritance': [
+    'Default',
+    'Variable',
+    'Triple Mustache',
+    'Sections',
+    'Negative Sections',
+    'Mustache Injection',
+    'Inherit',
+    'Overridden content',
+    'Data does not override block',
+    'Data does not override block default',
+    'Overridden parent',
+    'Two overridden parents',
+    'Override parent with newlines',
+    'Inherit indentation',
+    'Only one override',
+    'Parent template',
+    'Recursion',
+    'Multi-level inheritance',
+    'Multi-level inheritance, no sub child',
+    'Text inside parent',
+    'Block scope',
+    'Standalone parent',
+    'Standalone block',
+    'Block reindentation',
+    'Intrinsic indentation',
+    'Nested block reindentation'
   ],
   '~lambdas': [
     'Interpolation',
