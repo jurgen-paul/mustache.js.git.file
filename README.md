@@ -12,6 +12,9 @@ We call it "logic-less" because there are no if statements, else clauses, or for
 
 For a language-agnostic overview of mustache's template syntax, see the `mustache(5)` [manpage](http://mustache.github.io/mustache.5.html).
 
+## jquery.mustache.js
+`cat wrappers/jquery/*.pre mustache.js wrappers/jquery/*.post > jquery.mustache.x.y.z.js`
+
 ## Where to use mustache.js?
 
 You can use mustache.js to render mustache templates anywhere you can use JavaScript. This includes web browsers, server-side environments such as [Node.js](http://nodejs.org/), and [CouchDB](http://couchdb.apache.org/) views.
