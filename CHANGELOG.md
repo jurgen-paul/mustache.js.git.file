@@ -51,7 +51,7 @@ because there is more than caching happening in that method.
 We've improved that now by introducing a first class API that only affects template caching.
 
 The default template cache behaves as before and is still compatible with older JavaScript environments.
-For those who wants to provide a custom more sopisiticated caching strategy, one can do that with an object that adheres to the following requirements:
+For those who wants to provide a custom more sophisticated caching strategy, one can do that with an object that adheres to the following requirements:
 
 ```ts
 {
